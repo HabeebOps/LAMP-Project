@@ -85,9 +85,9 @@ LAMP stack is now fully operational, but before testing the setup with a PHP scr
 
 ## Step 4 — Configuring Nginx to Use the PHP Processor
 
-When using the Apache web server, you can create virtual hosts to encapsulate configuration details and host more than one domain from a single server. we’ll set up a domain called habeebops.
+When using the Nginx web server, you can create server blocks to encapsulate configuration details and host more than one domain from a single server. we’ll set up a domain called habeebops.
 
-Apache on Ubuntu 22.04 has one virtual host enabled by default that is configured to serve documents from the /var/www/html directory. While this works well for a single site, it can become unwieldy if you are hosting multiple sites. Instead of modifying /var/www/html, we’ll create a directory structure within /var/www for the habeebops site, leaving /var/www/html in place as the default directory to be served if a client request doesn’t match any other sites.
+Nginx on Ubuntu 22.04 has one server block enabled by default that is configured to serve documents from the /var/www/html directory. While this works well for a single site, it can become difficult to manage if you are hosting multiple sites. Instead of modifying /var/www/html, we’ll create a directory structure within /var/www for the habeebops site, leaving /var/www/html in place as the default directory to be served if a client request doesn’t match any other sites.
 
 Create the directory for habeeb ops domain as follows:
 
@@ -97,54 +97,54 @@ Next, assign ownership of the directory with the $USER environment variable, whi
 
 `sudo chown -R $USER:$USER /var/www/habeebops`
 
-Then, open a new configuration file in Apache’s sites-available directory using your preferred command-line editor. Here, we’ll use nano:
+Then, open a new configuration file in Nginx’s sites-available directory using your preferred command-line editor. Here, we’ll use nano:
 
-`sudo nano /etc/apache2/sites-available/habeebops.conf`
+`sudo nano /etc/nginx/sites-available/habeebops`
 
 This will create a new blank file. Add in the following bare-bones configuration with your own domain name: 
 
-![alt_text](Images/virtual%20host.png)
+![alt_text](Images2/server%20block.png)
 
 Save and close the file when you’re done. If you’re using nano, do that by pressing CTRL+X, then Y and ENTER.
 
-Now, use a2ensite to enable the new virtual host:
+Activate your configuration by linking to the configuration file from Nginx’s sites-enabled directory:
 
-`sudo a2ensite habeebops`
+`sudo ln -s /etc/nginx/sites-available/habeebops /etc/nginx/sites-enabled/`
 
-Disable the default website that comes installed with Apache. This is required if you’re not using a custom domain name, because in this case Apache’s default configuration would override your virtual host. To disable Apache’s default website, type:
+Then, unlink the default configuration file from the /sites-enabled/ directory:
 
-`sudo a2dissite 000-default`
+`sudo unlink /etc/nginx/sites-enabled/default`
 
-To make sure your configuration file doesn’t contain syntax errors, run the following command:
+To test your configuration for syntax errors by running the following:
 
-`sudo apache2ctl configtest`
+`sudo nginx -t`
 
-Finally, reload Apache so these changes take effect:
+Finally, reload Nginx so these changes take effect:
 
-`sudo systemctl reload apache2`
+`sudo systemctl reload nginx`
 
-![alt_text](Images/domain%20ok.png)
+![alt_text](Images2/syntax%20ok.png)
 
 
-Your new website is now active, but the web root /var/www/habeebops is still empty. Create an index.html file in that location to test that the virtual host works as expected:
+Your new website is now active, but the web root /var/www/habeebops is still empty. Create an index.html file in that location to test that the server block works as expected:
 
 `nano /var/www/habeebops/index.html`
 
 Enter the below and save
 
-![alt_text](Images/index.png)
+![alt_text](Images2/index2.png)
 
 Go to your browser and access your server’s domain name or IP address:
 
-http://51.20.66.119
+http://13.51.45.28
 
 Your web page should reflect the contents in the file you just edited:
 
-![alt_text](Images/hello%20world.png)
+![alt_text](Images2/Site%20ready.png)
 
-## Step 5 — Testing PHP Processing on your Web Server
+## Step 5 — Testing PHP with Nginx
 
-Now that you have a custom location to host your website’s files and folders, create a PHP test script to confirm that Apache is able to handle and process requests for PHP files.
+Now that you have a custom location to host your website’s files and folders, create a PHP test script to confirm that Nginx is able to handle and process requests for PHP files.
 
 Create a new file named info.php inside your custom web root folder:
 
@@ -152,14 +152,14 @@ Create a new file named info.php inside your custom web root folder:
 
 This will open a blank file. Add the following text, which is valid PHP code, inside the file:
 
-![alt_text](Images/php%20info.png)
+![alt_text](Images2/php%20info.png)
 
 When you are finished, save and close the file.
 
 To test this script, go to your web browser and access your server’s domain name or IP address, followed by the script name, which in this case is info.php:
 
-http://51.20.66.119/info.php
+http://13.51.45.28/info.php
 
 Here is an example of the default PHP web page:
 
-![alt_text](Images/php%20test.png)
+![alt_text](Images2/php%20test2.png)
