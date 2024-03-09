@@ -4,11 +4,11 @@ Start by updating the package manager cache. If this is the first time you’re 
 
 `sudo apt update`
 
-Then, install Apache with:
+Then, install Nginx with:
 
 `sudo apt install nginx`
 
-You’ll be prompted to confirm Apache’s installation. Confirm by pressing Y, then ENTER.
+You’ll be prompted to confirm Nginx’s installation. Confirm by pressing Y, then ENTER.
 
 Once the installation is finished, you’ll need to adjust your firewall settings to allow HTTP traffic. Ubuntu’s default firewall configuration tool is called Uncomplicated Firewall (UFW). To list all currently available UFW application profiles, execute this command:
 
@@ -16,7 +16,7 @@ Once the installation is finished, you’ll need to adjust your firewall setting
 
 ![alt text](Images2/Nginx1.png)
 
-To only allow traffic on port 80, use the Apache profile:
+To only allow traffic on port 80, use the Nginx profile:
 
 `sudo ufw allow 'Nginx HTTP'`
 
@@ -41,14 +41,14 @@ Check to verify that everything works by visiting your server’s public IP addr
 
 http://13.51.45.28
 
-Below is the Apache default web page:
+Below is the Nginx default web page:
 ![alt_text](Images2/nginx%20run.png)
 
 
 
 
 ## Step 2 — Installing MySQL
-Now that Apache web server up and running, a database system needs to be installed to store and manage data for your site. MySQL is a popular database management system used within PHP environments.
+Now that Nginx web server up and running, a database system needs to be installed to store and manage data for your site. MySQL is a popular database management system used within PHP environments.
 
 To start, use apt to acquire and install this software:
 
